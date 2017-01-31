@@ -108,7 +108,65 @@ mean.activity<-round(mean(activity.data$steps,na.rm = TRUE),digits=2)
 median.activity<-round(median(activity.data$steps,na.rm = TRUE),digits=2)
 ```
 
-+ The mean is 10766.19 steps
-+ The median is 11015 steps
++ The mean is 10766.19 steps. Is the same as the previous because i use the mean to fill 
++ The median is 11015 steps. Is diferent because i have new values
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+1. Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+
+
+```r
+library(lubridate)
+```
+
+```
+## 
+## Attaching package: 'lubridate'
+```
+
+```
+## The following object is masked from 'package:base':
+## 
+##     date
+```
+
+```r
+activity$weekday<-"weekday"
+activity$weekday[which(wday(ymd(activity$date))==1)]<-"weekend"
+activity$weekday[which(wday(ymd(activity$date))==7)]<-"weekend"
+activity$weekday<-as.factor(activity$weekday)
+table(activity$weekday)
+```
+
+```
+## 
+## weekday weekend 
+##   12960    4608
+```
+
+2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
+
+
+```r
+activity.interval.wday<-aggregate(steps~interval,
+                                  data=activity[activity$weekday=="weekday",],
+                                  mean,na.rm=TRUE)
+
+activity.interval.wend<-aggregate(steps~interval,
+                                  data=activity[activity$weekday=="weekend",],
+                                  mean,na.rm=TRUE)
+
+
+par(mfrow=c(2,1),mar=c(4,4,2,1))
+
+with(activity.interval.wday,
+     plot(y=steps ,x=interval ,type = "l", 
+          ylab = "Number of steps",main="Weekday",col="steelblue"))
+with(activity.interval.wend,
+     plot(y=steps ,x=interval ,type = "l",xlab = "Interval", 
+          ylab = "Number of steps",main="Weekend",col="steelblue"))
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+
