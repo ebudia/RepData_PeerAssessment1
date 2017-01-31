@@ -149,23 +149,11 @@ table(activity$weekday)
 
 
 ```r
-activity.interval.wday<-aggregate(steps~interval,
-                                  data=activity[activity$weekday=="weekday",],
+activity.interval.w<-aggregate(steps~interval+weekday,
+                                  data=activity,
                                   mean,na.rm=TRUE)
-
-activity.interval.wend<-aggregate(steps~interval,
-                                  data=activity[activity$weekday=="weekend",],
-                                  mean,na.rm=TRUE)
-
-
-par(mfrow=c(2,1),mar=c(4,4,2,1))
-
-with(activity.interval.wday,
-     plot(y=steps ,x=interval ,type = "l", 
-          ylab = "Number of steps",main="Weekday",col="steelblue"))
-with(activity.interval.wend,
-     plot(y=steps ,x=interval ,type = "l",xlab = "Interval", 
-          ylab = "Number of steps",main="Weekend",col="steelblue"))
+library(lattice)
+xyplot(steps~interval | weekday, data=activity.interval.w,layout=c(1,2),type="l",col="steelblue")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
