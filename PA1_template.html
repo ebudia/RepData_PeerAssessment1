@@ -217,11 +217,7 @@ median.activity&lt;-round(median(activity.data$steps,na.rm = TRUE),digits=2)</co
 <pre class="r"><code>activity$weekday&lt;-&quot;weekday&quot;
 activity$weekday[which(wday(ymd(activity$date))==1)]&lt;-&quot;weekend&quot;
 activity$weekday[which(wday(ymd(activity$date))==7)]&lt;-&quot;weekend&quot;
-activity$weekday&lt;-as.factor(activity$weekday)
-table(activity$weekday)</code></pre>
-<pre><code>## 
-## weekday weekend 
-##   12960    4608</code></pre>
+activity$weekday&lt;-as.factor(activity$weekday)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Make a panel plot containing a time series plot (i.e. type = “l”) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.</li>
 </ol>
